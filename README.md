@@ -27,6 +27,7 @@ It is used by:
 - [upscaledb](https://github.com/cruppstahl/upscaledb)
 - [EventQL](https://github.com/eventql/eventql)
 - [ManticoreSearch](https://manticoresearch.com)
+- [SereneDB](https://github.com/serenedb/serenedb)
 
 
 
