@@ -74,7 +74,13 @@ typedef signed char int8_t;
     }                                                                          \
   } while (0)
 #else
+#if defined(__aarch64__) || defined(__arm__) || defined(__ARM_NEON) ||        \
+    defined(_M_ARM64)
+/* ARM NEON: use our own SSE-on-NEON shim instead of the x86 intrinsics. */
+#include "neon128.h"
+#else
 #include <x86intrin.h>
+#endif
 #define SIMDCOMP_CTZ(result, mask) result = __builtin_ctz(mask)
 #endif
 

@@ -59,7 +59,8 @@ static uint32_t orasint(const __m128i accumulator) {
   return _mm_cvtsi128_si32(_tmp2);
 }
 
-#ifdef __SSE4_1__
+#if defined(__SSE4_1__) || defined(__aarch64__) || defined(__arm__) ||        \
+    defined(__ARM_NEON) || defined(_M_ARM64)
 
 static uint32_t minasint(const __m128i accumulator) {
   const __m128i _tmp1 = _mm_min_epu32(

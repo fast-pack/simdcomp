@@ -4,7 +4,7 @@ Simple Go demo
 Setup
 ======
 
-Start by installing the simdcomp library (make && make install).
+Start by installing the simdcomp library (cmake -B build && cmake --build build && cmake --install build).
 
 Then type:
 

@@ -7,3 +7,6 @@ src/*.o
 src/.deps
 src/.dirstamp
 src/.libs
+# CMake build directories
+/build/
+cmake-build-*/

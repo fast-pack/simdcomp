@@ -1,10 +1,13 @@
 /**
  * This code is released under a BSD License.
  */
-#ifdef __SSE4_1__
+#if defined(__SSE4_1__) || defined(__aarch64__) || defined(__arm__) ||        \
+    defined(__ARM_NEON) || defined(_M_ARM64)
 
 #include "simdintegratedbitpacking.h"
+#ifdef __SSE4_1__
 #include <smmintrin.h>
+#endif
 
 SIMDCOMP_ALIGNED(16)
 static int8_t shuffle_mask_bytes[256] = {

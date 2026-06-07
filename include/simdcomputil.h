@@ -7,8 +7,11 @@
 
 #include "portability.h"
 
-/* SSE2 is required */
+/* SSE2 is required (on ARM, neon128.h via portability.h provides the shim) */
+#if !(defined(__aarch64__) || defined(__arm__) || defined(__ARM_NEON) ||      \
+      defined(_M_ARM64))
 #include <emmintrin.h>
+#endif
 
 /* returns the integer logarithm of v (bit width) */
 uint32_t bits(const uint32_t v);

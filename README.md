@@ -13,6 +13,9 @@ This is significantly faster than generic codecs like gzip, LZO, Snappy or LZ4.
 On a Skylake Intel processor, it can decode integers at a rate 0.3 cycles per integer,
 which can easily translate into more than 8 decoded billions integers per second.
 
+It runs on both x86/x64 (SSE/AVX) and 64-bit ARM (NEON, e.g. Apple Silicon). See
+[Platforms](#platforms) below.
+
 This library is part of the [Awesome C](https://github.com/kozross/awesome-c) list of C resources.
 
 Contributors: Daniel Lemire, Nathan Kurz, Christoph Rupp, Anatol Belski, Nick White and others
@@ -34,20 +37,38 @@ It is used by:
 Requirements
 -------------
 
-- Your processor should support SSE4.1 (It is supported by most Intel and AMD processors released since 2008.)
-- It is possible to build the core part of the code if your processor support SSE2 (Pentium4 or better)
-- C99 compliant compiler (GCC is assumed)
-- A Linux-like distribution is assumed by the makefile
+- On x86/x64: your processor should support SSE4.1 (supported by most Intel and AMD processors released since 2008). The core bit-packing functions only require SSE2 (Pentium4 or better).
+- On ARM: an AArch64/ARM processor with NEON (e.g. Apple Silicon). The SSE intrinsics are mapped to NEON by our own self-contained shim (`include/neon128.h`); no third-party translation library is pulled in.
+- A C99 (or better) compiler, plus a C++17 compiler if you build the benchmarks.
+- CMake 3.14 or better.
 
 For a plain C version that does not use SIMD instructions, see https://github.com/lemire/LittleIntPacker
+
+Platforms
+---------
+
+The library supports two SIMD backends behind the same API:
+
+- **x86 / x64** — Intel/AMD SSE (with optional AVX2 and AVX-512 code paths,
+  enabled automatically when you build with `-march=native` on a capable host).
+- **64-bit ARM (AArch64) with NEON**, such as Apple Silicon. The SSE intrinsics
+  used by the 128-bit kernels are mapped onto ARM NEON by a small, self-contained
+  shim that ships with the library (`include/neon128.h`). This is our own code
+  written directly against `<arm_neon.h>`; no third-party translation layer
+  (such as sse2neon) is pulled in. The wider AVX2/AVX-512 paths are x86-only and
+  are simply inactive on ARM.
+
+The public API is identical on both: it is selected automatically at compile
+time, so the same source (including the `__m128i`-based entry points) builds on
+either architecture.
 
 Usage
 -------
 
 Compression works over blocks of 128 integers.
 
-For a complete working example, see example.c (you can build it and
-run it with "make example; ./example").
+For a complete working example, see example.c (after building, run it
+with "./build/example").
 
 
 
@@ -113,13 +134,50 @@ of compression.
 Setup
 ---------
 
+The library builds with CMake:
 
-make
-make test
+```
+cmake -B build
+cmake --build build
+ctest --test-dir build        # run the unit tests
+```
 
-and if you are daring:
+To install the library, headers, and a CMake package configuration:
 
-make install
+```
+cmake --install build --prefix /your/install/prefix
+```
+
+Once installed, another CMake project can use it with:
+
+```cmake
+find_package(simdcomp REQUIRED)
+target_link_libraries(myapp PRIVATE simdcomp::simdcomp)
+```
+
+Or vendor it directly via FetchContent (no install needed):
+
+```cmake
+include(FetchContent)
+FetchContent_Declare(simdcomp
+  GIT_REPOSITORY https://github.com/lemire/simdcomp.git
+  GIT_TAG master)
+FetchContent_MakeAvailable(simdcomp)
+target_link_libraries(myapp PRIVATE simdcomp::simdcomp)
+```
+
+Useful options: `-DSIMDCOMP_BUILD_BENCHMARKS=OFF` (the benchmarks pull in
+[lemire/counters](https://github.com/lemire/counters) for cycle-accurate timing
+and require C++17), `-DSIMDCOMP_BUILD_TESTS=OFF`, and `-DSIMDCOMP_NATIVE=OFF`
+(disable `-march=native`).
+
+The benchmark reports CPU cycles per integer using hardware performance counters
+when they are available (otherwise it falls back to wall-clock time and
+throughput):
+
+```
+./build/bitpackingbenchmark        # on Apple Silicon/Linux, run with sudo for cycle counts
+```
 
 Go
 --------

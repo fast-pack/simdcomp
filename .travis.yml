@@ -8,4 +8,4 @@ branches:
   only:
     - master
 
-script: make && ./unit && ./unit_chars && make clean  
+script: cmake -B build && cmake --build build && ctest --test-dir build --output-on-failure
