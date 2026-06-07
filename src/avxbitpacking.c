@@ -7,7 +7,7 @@ static uint32_t maxbitas32int(const __m256i accumulator) {
   const __m256i _tmp2 = _mm256_or_si256(_mm256_srli_si256(_tmp1, 4), _tmp1);
   uint32_t ans1 = _mm256_extract_epi32(_tmp2, 0);
   uint32_t ans2 = _mm256_extract_epi32(_tmp2, 4);
-  uint32_t ans = ans1 > ans2 ? ans1 : ans2;
+  uint32_t ans = ans1 | ans2;
   return bits(ans);
 }
 
