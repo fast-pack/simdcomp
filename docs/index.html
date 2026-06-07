@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The simdcomp library</title>
+  <meta name="description" content="A simple C library for compressing lists of integers using binary packing and SIMD instructions. Decode billions of integers per second on x86 (SSE/AVX) and 64-bit ARM (NEON).">
+  <meta name="keywords" content="open source, integer compression, bit packing, SIMD, SSE, AVX, NEON, C">
+
+  <meta property="og:title" content="The simdcomp library">
+  <meta property="og:description" content="Compressing lists of integers with SIMD binary packing — decode billions of integers per second.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fast-pack.github.io/simdcomp/">
+  <meta property="og:image" content="https://fast-pack.github.io/simdcomp/logo.svg">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The simdcomp library">
+  <meta name="twitter:description" content="Compressing lists of integers with SIMD binary packing — decode billions of integers per second.">
+  <meta name="twitter:image" content="https://fast-pack.github.io/simdcomp/logo.svg">
+
+  <link rel="icon" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="." class="brand">
+        <img src="logo.svg" alt="simdcomp logo" class="brand-logo">
+        <span class="brand-name">simdcomp</span>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links" id="nav-links">
+        <a class="nav-link" href="#highlights">Highlights</a>
+        <a class="nav-link" href="#get-started">Get started</a>
+        <a class="nav-link" href="#features">Features</a>
+        <a class="nav-link" href="#usedby">Used by</a>
+        <a class="nav-link nav-cta" href="https://github.com/fast-pack/simdcomp" aria-label="GitHub repository">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.6.5.5 5.6.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.2-1.5 3.2-1.2 3.2-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.4-5.3 5.7.4.3.8 1 .8 2v3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.6 18.4.5 12 .5z"/></svg>
+          <span>GitHub</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===================== Hero ===================== -->
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-grid"></div>
+        <div class="hero-glow"></div>
+      </div>
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <div class="hero-eyebrow">
+            <span class="dot"></span>
+            Integer compression at memory speed
+          </div>
+          <h1 class="hero-title">
+            Decoding billions of integers per second
+          </h1>
+          <p class="hero-sub">
+            <strong>simdcomp</strong> is a simple C library that compresses lists of 32-bit integers
+            with SIMD binary packing. When your numbers are small &mdash; or the gaps between sorted
+            values are &mdash; it packs them tight and unpacks them at <strong>15 GB/s</strong>.
+          </p>
+          <div class="hero-actions">
+            <a href="https://github.com/fast-pack/simdcomp#readme" class="btn btn-primary">
+              Read the docs
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+            <a href="https://github.com/fast-pack/simdcomp" class="btn btn-ghost">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.6.5.5 5.6.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.2-1.5 3.2-1.2 3.2-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.4-5.3 5.7.4.3.8 1 .8 2v3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.6 18.4.5 12 .5z"/></svg>
+              Star on GitHub
+            </a>
+          </div>
+          <div class="hero-install">
+            <span class="cmd"><span class="prompt">$</span> git clone github.com/fast-pack/simdcomp</span><span class="sep" aria-hidden="true">·</span><span class="cmd"><span class="prompt">$</span> cmake -B build</span><span class="sep" aria-hidden="true">·</span><span class="cmd"><span class="prompt">$</span> cmake --build build</span>
+          </div>
+        </div>
+        <div class="hero-code">
+          <div class="code-window">
+            <div class="code-titlebar">
+              <span class="dotr"></span><span class="doty"></span><span class="dotg"></span>
+              <span class="code-filename">quickstart.c</span>
+            </div>
+            <pre class="code-body"><code><span class="kw">#include</span> <span class="str">"simdcomp.h"</span>
+
+<span class="comment">/* Pack 128 small integers, then unpack them. */</span>
+uint32_t b = <span class="fn">maxbits</span>(datain);        <span class="comment">// bit width</span>
+<span class="fn">simdpackwithoutmask</span>(datain, buffer, b); <span class="comment">// 128 ints -&gt; b*128 bits</span>
+<span class="fn">simdunpack</span>(buffer, recovered, b);      <span class="comment">// and back again</span>
+
+<span class="comment">/* Sorted? Store deltas with differential coding. */</span>
+uint32_t b1 = <span class="fn">simdmaxbitsd1</span>(<span class="num">0</span>, datain);
+<span class="fn">simdpackwithoutmaskd1</span>(<span class="num">0</span>, datain, buffer, b1);
+<span class="fn">simdunpackd1</span>(<span class="num">0</span>, buffer, recovered, b1);</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Stats ===================== -->
+    <section class="stats">
+      <div class="container">
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat-value">4<span class="unit">billion+</span></div>
+            <div class="stat-label">Integers decoded per second</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">0.3<span class="unit">cycles/int</span></div>
+            <div class="stat-label">On a Skylake processor</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">15<span class="unit">GB/s</span></div>
+            <div class="stat-label">Decompression throughput</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">32/b<span class="unit">×</span></div>
+            <div class="stat-label">Compression ratio</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Highlights ===================== -->
+    <section class="section section-alt" id="highlights">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Why simdcomp</span>
+          <h2>Highlights</h2>
+        </div>
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+            </div>
+            <h3>Blazing fast</h3>
+            <p>Decode at least 4 billion compressed integers per second &mdash; roughly 0.3 cycles per integer on a Skylake core. Far faster than gzip, LZO, Snappy or LZ4.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
+            </div>
+            <h3>Simple C API</h3>
+            <p>A handful of clear functions over blocks of 128 integers. C99 or better, CMake-friendly, no heavy dependencies. Drop it in and pack.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
+            </div>
+            <h3>x86 <em>and</em> ARM</h3>
+            <p>SSE4.1 with optional AVX2 / AVX-512 paths on Intel and AMD, plus 64-bit ARM NEON (Apple Silicon) through a self-contained shim. Same API everywhere.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>
+            </div>
+            <h3>Delta coding</h3>
+            <p>For sorted lists, store differences between successive integers. Tiny gaps compress to a few bits each &mdash; ideal for inverted indexes and posting lists.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            </div>
+            <h3>Search in place</h3>
+            <p>Frame-of-reference (FOR) packing lets you search and select directly over compressed data, without fully decoding it first.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <h3>Peer reviewed</h3>
+            <p>Built on published research in <em>Software: Practice &amp; Experience</em> and used in production databases and search engines.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Get started ===================== -->
+    <section class="section" id="get-started">
+      <div class="container">
+        <div class="two-col">
+          <div>
+            <span class="eyebrow">Get started</span>
+            <h2>Build it in two commands</h2>
+            <p class="lead">
+              simdcomp builds with CMake and selects the right SIMD backend automatically
+              at compile time &mdash; SSE/AVX on x86, NEON on ARM. Pull it in with
+              <code>find_package</code> after installing, or vendor it straight from source
+              with <code>FetchContent</code>.
+            </p>
+            <p>
+              <a class="btn btn-primary" href="https://github.com/fast-pack/simdcomp#setup">Setup guide
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              </a>
+              <a class="btn btn-ghost" href="https://github.com/fast-pack/simdcomp/blob/master/example/example.c">Example code</a>
+            </p>
+            <p class="small muted install-note">
+              No package manager needed &mdash; the library is a small set of C files under
+              <code>src/</code> and <code>include/</code>. You can also grab it as the npm
+              package <code>simdcomp</code>, or use the demo in the <code>go/</code> folder.
+            </p>
+          </div>
+          <div>
+            <div class="code-window">
+              <div class="code-titlebar">
+                <span class="dotr"></span><span class="doty"></span><span class="dotg"></span>
+                <span class="code-filename">build.sh</span>
+              </div>
+              <pre class="code-body"><code><span class="comment"># Clone &amp; build</span>
+<span class="prompt">$</span> git clone https://github.com/fast-pack/simdcomp
+<span class="prompt">$</span> cmake -B build
+<span class="prompt">$</span> cmake --build build
+<span class="prompt">$</span> ctest --test-dir build      <span class="comment"># run the tests</span>
+
+<span class="comment"># Or vendor it via CMake FetchContent</span>
+<span class="kw">FetchContent_Declare</span>(simdcomp
+  GIT_REPOSITORY https://github.com/fast-pack/simdcomp.git
+  GIT_TAG master)
+<span class="kw">FetchContent_MakeAvailable</span>(simdcomp)
+<span class="kw">target_link_libraries</span>(myapp PRIVATE simdcomp::simdcomp)</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Features ===================== -->
+    <section class="section section-alt" id="features">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Features</span>
+          <h2>What's in the box</h2>
+        </div>
+        <div class="feature-grid">
+          <div class="feature">
+            <div class="feature-tag">core</div>
+            <h3>Binary packing</h3>
+            <p>Pack 128 integers into <code>b</code> 128-bit words with <code>simdpack</code> / <code>simdunpack</code>. Compression ratio is 32/b.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-tag">sorted</div>
+            <h3>Differential coding</h3>
+            <p>The <code>*d1</code> family stores deltas from an offset, so sorted, slowly-growing sequences shrink to a handful of bits each.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-tag">FOR</div>
+            <h3>Frame of reference</h3>
+            <p>The <code>simdfor</code> routines pack relative to a base value &mdash; no delta chain, so individual values stay randomly accessible.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-tag">query</div>
+            <h3>Search &amp; select</h3>
+            <p>Find a value or pull out the <em>i</em>-th element directly from packed blocks, without decompressing the whole array.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-tag">AVX2 · AVX-512</div>
+            <h3>Wider vectors</h3>
+            <p>Optional 256-bit and 512-bit code paths kick in automatically when you build with <code>-march=native</code> on a capable host.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-tag">NEON</div>
+            <h3>64-bit ARM</h3>
+            <p>The 128-bit SSE kernels map onto ARM NEON via a small built-in shim (<code>include/neon128.h</code>) &mdash; no third-party translation layer.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-tag">any length</div>
+            <h3>Arbitrary arrays</h3>
+            <p>The <code>*_length</code> helpers and <code>simdpack_compressedbytes</code> handle arrays that aren't a neat multiple of 128.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-tag">Go</div>
+            <h3>Go demo</h3>
+            <p>A small Go binding lives in the <code>go/</code> folder, with ports to <a href="https://github.com/quickwit-oss/bitpacking">Rust</a> and <a href="https://github.com/mcovalt/TinyInt.jl">Julia</a> maintained elsewhere.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-tag">BSD-3</div>
+            <h3>Permissive license</h3>
+            <p>Released under the BSD 3-Clause license &mdash; free to use in commercial and open-source projects alike.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Used by ===================== -->
+    <section class="section usedby" id="usedby">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Used in production</span>
+          <h2>Trusted where every cycle counts</h2>
+          <p class="lead">
+            simdcomp powers integer compression inside databases and search engines that move
+            billions of values.
+          </p>
+        </div>
+        <div class="usedby-grid">
+          <a class="usedby-card" href="https://github.com/cruppstahl/upscaledb">upscaledb</a>
+          <a class="usedby-card" href="https://github.com/eventql/eventql">EventQL</a>
+          <a class="usedby-card" href="https://manticoresearch.com">Manticore Search</a>
+          <a class="usedby-card" href="https://github.com/serenedb/serenedb">SereneDB</a>
+        </div>
+        <p class="usedby-foot muted">
+          Plus ports &amp; siblings &mdash;
+          <a href="https://github.com/quickwit-oss/bitpacking">Rust (bitpacking)</a>,
+          <a href="https://github.com/mcovalt/TinyInt.jl">Julia (TinyInt.jl)</a>,
+          <a href="https://github.com/ronanh/intcomp">Go (intcomp)</a>, and the wider
+          <a href="https://github.com/lemire/FastPFor">FastPFor</a> /
+          <a href="https://github.com/lemire/streamvbyte">StreamVByte</a> family.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="logo.svg" alt="simdcomp" class="footer-logo">
+        <p class="footer-tag">Compressing lists of integers at memory speed.</p>
+        <p class="muted small">© 2014&ndash;2026 The simdcomp authors · BSD 3-Clause License</p>
+      </div>
+      <div class="footer-col">
+        <h4>Project</h4>
+        <a href="https://github.com/fast-pack/simdcomp#readme">Documentation</a>
+        <a href="https://github.com/fast-pack/simdcomp/blob/master/example/example.c">Example</a>
+        <a href="https://github.com/fast-pack/simdcomp/blob/master/CHANGELOG">Changelog</a>
+        <a href="https://github.com/fast-pack/simdcomp/blob/master/LICENSE">License</a>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <a href="https://github.com/fast-pack/simdcomp">GitHub</a>
+        <a href="https://github.com/fast-pack/simdcomp/issues">Issues</a>
+        <a href="https://github.com/fast-pack/simdcomp/pulls">Pull requests</a>
+        <a href="https://arxiv.org/abs/1209.2137">Read the paper</a>
+      </div>
+      <div class="footer-col">
+        <h4>Related</h4>
+        <a href="https://github.com/lemire/FastPFor">FastPFor</a>
+        <a href="https://github.com/lemire/streamvbyte">StreamVByte</a>
+        <a href="https://github.com/lemire/LittleIntPacker">LittleIntPacker</a>
+        <a href="https://github.com/lemire/SIMDCompressionAndIntersection">SIMDCompression</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/site.js" defer></script>
+</body>
+</html>
