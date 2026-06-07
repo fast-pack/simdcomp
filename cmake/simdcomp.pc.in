@@ -1,0 +1,10 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
+includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+
+Name: simdcomp
+Description: SIMD integer compression (bit packing) for x86 SSE/AVX and ARM NEON
+Version: @PROJECT_VERSION@
+Libs: -L${libdir} -lsimdcomp
+Cflags: -I${includedir}

@@ -67,7 +67,7 @@ Usage
 
 Compression works over blocks of 128 integers.
 
-For a complete working example, see example.c (after building, run it
+For a complete working example, see example/example.c (after building, run it
 with "./build/example").
 
 
